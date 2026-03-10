@@ -19,31 +19,42 @@ enum PostStatus {
 }
 
 model User {
-  id            String   @id @default(cuid())
+  id            String    @id @default(cuid())
   name          String?
-  email         String?  @unique
+  slug String? @unique
+  email         String?   @unique
   emailVerified DateTime?
   image         String?
-  role          Role     @default(WRITER)
+  role          Role      @default(WRITER)
   accounts      Account[]
   sessions      Session[]
   posts         Post[]
-  createdAt     DateTime @default(now())
+  notifications Notification[]
+  createdAt     DateTime  @default(now())
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?
-  access_token       String?
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?
-  session_state      String?
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -59,13 +70,50 @@ model Session {
 }
 
 model Post {
-  id        String     @id @default(cuid())
-  title     String
-  slug      String     @unique
-  content   Json
-  status    PostStatus @default(DRAFT)
-  author    User       @relation(fields: [authorId], references: [id])
-  authorId  String
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  id          String  @id @default(cuid())
+  title       String
+  slug        String  @unique
+  content     Json
+  excerpt     String?
+  bannerImage String?
+
+  seoTitle       String?
+  seoDescription String?
+
+  status      PostStatus @default(DRAFT)
+  publishedAt DateTime?
+
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId String
+
+  categories PostCategory[]
+  views      PostView[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PostView {
+  id        String   @id @default(cuid())
+  postId    String
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
+
+model Category {
+  id        String         @id @default(cuid())
+  name      String
+  slug      String         @unique
+  posts     PostCategory[]
+  createdAt DateTime       @default(now())
+}
+
+model PostCategory {
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId String
+
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId String
+
+  @@id([postId, categoryId])
 }
