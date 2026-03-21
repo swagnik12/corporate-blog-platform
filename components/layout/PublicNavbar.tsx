@@ -83,7 +83,7 @@ export function PublicNavbar() {
     const closeAll = () => { setIsMobileMenuOpen(false); setIsDropdownOpen(false); };
 
     return (
-        <nav className="sticky top-0 z-50 w-full bg-white/90 backdrop-blur-md border-b border-gray-100 transition-all duration-300">
+        <nav className="fixed top-0 z-50 w-full bg-white/90 backdrop-blur-md border-b border-gray-100 transition-all duration-300">
             <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
 
                 {/* Left: Logo */}

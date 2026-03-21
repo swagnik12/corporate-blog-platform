@@ -22,24 +22,20 @@ export const metadata: Metadata = {
 
 import { PublicNavbar } from "@/components/layout/PublicNavbar";
 import { ClientProviders } from "./providers";
-import { headers } from "next/headers";
 
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Simple check via request headers for path, alternative to using a full custom layout tree
-  const headersList = await headers();
-  const pathname = headersList.get("x-pathname") || "";
-  const isDashboard = pathname.startsWith("/dashboard");
-
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <ClientProviders>
-          {!isDashboard && <PublicNavbar />}
-          {children}
+          <PublicNavbar />
+          <div className="pt-16">
+            {children}
+          </div>
         </ClientProviders>
       </body>
     </html>

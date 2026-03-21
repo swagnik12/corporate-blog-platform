@@ -19,9 +19,9 @@ export default async function DashboardLayout({ children }: { children: React.Re
     ]
 
     return (
-        <div className="flex min-h-screen bg-gray-50">
+        <div className="flex min-h-[calc(100vh-4rem)] bg-gray-50">
             {/* Sidebar */}
-            <aside className="w-64 bg-white border-r border-gray-200 hidden lg:flex flex-col fixed inset-y-0 z-10">
+            <aside className="w-64 bg-white border-r border-gray-200 hidden lg:flex flex-col fixed top-16 bottom-0 z-10">
                 <div className="h-16 flex items-center px-6 border-b border-gray-200 bg-white">
                     <Link href="/" className="flex items-center">
                         <span className="text-xl font-extrabold text-gray-900 tracking-tight">BlogBase</span>
@@ -57,7 +57,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
             {/* Main content wrapper */}
             <div className="flex-1 flex flex-col lg:pl-64 min-w-0">
                 {/* Topbar */}
-                <header className="h-16 bg-white/80 backdrop-blur-md border-b border-gray-200 flex items-center justify-between px-6 sticky top-0 z-20">
+                <header className="h-16 bg-white/80 backdrop-blur-md border-b border-gray-200 flex items-center justify-between px-6 sticky top-16 z-20">
                     <div className="flex items-center flex-1">
                         <div className="relative w-full max-w-sm hidden sm:block">
                             <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
